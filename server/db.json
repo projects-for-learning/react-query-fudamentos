@@ -9,6 +9,11 @@
             "id": 2,
             "name": "Zezinho",
             "email": "zezinho@pereira.com"
+        },
+        {
+            "id": 3,
+            "name": "Motoqueiro",
+            "email": "zx10@veloz.com"
         }
     ]
 }
