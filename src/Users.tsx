@@ -13,15 +13,17 @@ export function Users() {
   */
   // const [enabled, setEnabled] = useState(false);
 
-  const { data, isLoading, refetch, isPending, isFetching } = useQuery({
+  const { data, isLoading, refetch, isPending, isFetching, error } = useQuery({
     // enabled: false, estou dizendo para o react-query que essa queryFn mão deve ser executada, para que não execute assim que o componente seja montado
     enabled: true,
     staleTime: 5000,
     gcTime: 5000,
     refetchOnWindowFocus: false,
-    refetchInterval: 1000,
+    retry: 3,
+    // refetchInterval: 1000,
     queryKey: ["users"],
     queryFn: async (): Promise<IUser[]> => {
+      // throw new Error("deu error");
       await sleep();
       const response = await fetch("http://localhost:3000/users");
 
@@ -41,6 +43,7 @@ export function Users() {
       </button>
       {isLoading && <h1>Carregando...</h1>}
       {!isLoading && isFetching && <small>Fetching...</small>}
+      {error && <h1 className="text-red-400">{error.toString()}</h1>}
       {data?.map((user) => (
         <div key={user.id}>
           <strong className="block">{user.name}</strong>
