@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { sleep } from "./sleep";
-import { useState } from "react";
 
 interface IUser {
   id: string;
@@ -16,8 +15,9 @@ export function Users() {
 
   const { data, isLoading, refetch, isPending, isFetching } = useQuery({
     // enabled: false, estou dizendo para o react-query que essa queryFn mão deve ser executada, para que não execute assim que o componente seja montado
-    enabled: true,
+    enabled: false,
     staleTime: 5000,
+    gcTime: 5000,
     queryKey: ["users"],
     queryFn: async (): Promise<IUser[]> => {
       await sleep();
