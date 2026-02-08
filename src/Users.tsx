@@ -1,11 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { sleep } from "./sleep";
-
-interface IUser {
-  id: string;
-  name: string;
-  email: string;
-}
+import { useUsers } from "./hooks/useUsers";
 
 export function Users() {
   /*
@@ -13,19 +6,7 @@ export function Users() {
   */
   // const [enabled, setEnabled] = useState(false);
 
-  const { data, isLoading, refetch, isPending, isFetching, error } = useQuery({
-    // enabled: false, estou dizendo para o react-query que essa queryFn mão deve ser executada, para que não execute assim que o componente seja montado
-    enabled: true,
-    // refetchInterval: 1000,
-    queryKey: ["users"],
-    queryFn: async (): Promise<IUser[]> => {
-      // throw new Error("deu error");
-      await sleep();
-      const response = await fetch("http://localhost:3000/users");
-
-      return response.json();
-    },
-  });
+  const { users, isLoading, refetch, isFetching, error } = useUsers();
 
   return (
     <div className="p-4">
@@ -40,7 +21,7 @@ export function Users() {
       {isLoading && <h1>Carregando...</h1>}
       {!isLoading && isFetching && <small>Fetching...</small>}
       {error && <h1 className="text-red-400">{error.toString()}</h1>}
-      {data?.map((user) => (
+      {users.map((user) => (
         <div key={user.id}>
           <strong className="block">{user.name}</strong>
           <small>{user.email}</small>
