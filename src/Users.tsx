@@ -13,10 +13,10 @@ export function Users() {
     isLoading: isUserLoading,
     refetch,
     isFetching,
-    error,
+    error: userError,
   } = useUsers();
 
-  const { mutate, isPending, data } = useMutation({
+  const { mutate, isPending, data, error } = useMutation({
     mutationFn: async ({
       name,
       email,
@@ -25,6 +25,7 @@ export function Users() {
       email: string;
     }): Promise<IUser> => {
       await sleep();
+      // throw new Error("Deu ruim na mutation");
       const response = await fetch("http://localhost:3000/users", {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -32,6 +33,20 @@ export function Users() {
       });
 
       return response.json();
+    },
+    onError: (error, variables) => {
+      console.log(
+        `Error na request.\n${error.toString()}\nvariables:`,
+        variables,
+      );
+    },
+    onSuccess: (data, variables) => {
+      console.log("onSuccess: ", { data, variables });
+    },
+    onSettled: () => {
+      //seu comportamento se assemelha ao finally do try catch, ele vai ser executado independete
+      // se tiver dado sucesso ou erro
+      console.log("onSettled -> terminou a execucao!");
     },
   });
 
@@ -91,7 +106,7 @@ export function Users() {
       </button>
       {isUserLoading && <h1>Carregando...</h1>}
       {!isUserLoading && isFetching && <small>Fetching...</small>}
-      {error && <h1 className="text-red-400">{error.toString()}</h1>}
+      {userError && <h1 className="text-red-400">{userError.toString()}</h1>}
       {users.map((user) => (
         <div key={user.id}>
           <strong className="block">{user.name}</strong>
