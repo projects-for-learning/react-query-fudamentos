@@ -1,6 +1,7 @@
 import { useUsers, type IUser } from "./hooks/useUsers";
 import { useMutation } from "@tanstack/react-query";
 import { sleep } from "./sleep";
+import { useCreateUser } from "./hooks/useCreateUser";
 
 export function Users() {
   /*
@@ -16,39 +17,7 @@ export function Users() {
     error: userError,
   } = useUsers();
 
-  const { mutateAsync, isPending, data, error } = useMutation({
-    mutationFn: async ({
-      name,
-      email,
-    }: {
-      name: string;
-      email: string;
-    }): Promise<IUser> => {
-      await sleep();
-      // throw new Error("Deu ruim na mutation");
-      const response = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({ name, email }),
-      });
-
-      return response.json();
-    },
-    onError: (error, variables) => {
-      console.log(
-        `Error na request.\n${error.toString()}\nvariables:`,
-        variables,
-      );
-    },
-    onSuccess: (data, variables) => {
-      console.log("onSuccess: ", { data, variables });
-    },
-    onSettled: () => {
-      //seu comportamento se assemelha ao finally do try catch, ele vai ser executado independete
-      // se tiver dado sucesso ou erro
-      console.log("onSettled -> terminou a execucao!");
-    },
-  });
+  const { createUser, isPending, data, error } = useCreateUser();
 
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -72,7 +41,7 @@ export function Users() {
 
     // Podemos utilizar estados mas o mais comum é utilizar uncontrolled values pois assum podemos garantir
     // que as informações estão corretas, pois podemos não ter controle por os estates estarem fora do escopo
-    const { data } = await mutateAsync({
+    const { data } = await createUser({
       name: element.name.value,
       email: element.email.value,
     });
