@@ -10,15 +10,15 @@ export function Users() {
   const { users, isLoading, refetch, isFetching, error } = useUsers();
 
   const { mutate } = useMutation({
-    mutationFn: async () => {
-      console.log("mutation executou");
+    mutationFn: async (variables: { name: string; email: string }) => {
+      console.log("mutation executou", variables);
     },
   });
 
   function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // pegando os valores do input de form uncontrolled
+    // pegando os valores do input de form uncontrolled. Para exemplificar como pegar os dados se tivesse fora do componente
     /*
       Tenha o seu mesmo tipo  -> as typeof event.currentTarget.elements
       E adicionei os inputs -> & {
@@ -35,7 +35,9 @@ export function Users() {
     console.log("Nome:", element.name.value);
     console.log("E-mail:", element.email.value);
 
-    mutate();
+    // Podemos utilizar estados mas o mais comum é utilizar uncontrolled values pois assum podemos garantir
+    // que as informações estão corretas, pois podemos não ter controle por os estates estarem fora do escopo
+    mutate({ name: element.name.value, email: element.email.value });
   }
 
   return (
