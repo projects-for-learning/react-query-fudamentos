@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { sleep } from "../sleep";
 
-interface IUser {
+export interface IUser {
   id: string;
   name: string;
   email: string;

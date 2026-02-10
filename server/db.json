@@ -1,19 +1,34 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "name": "Henrique",
-            "email": "henrique@pereira.com"
-        },
-        {
-            "id": 2,
-            "name": "Zezinho",
-            "email": "zezinho@pereira.com"
-        },
-        {
-            "id": 3,
-            "name": "Motoqueiro",
-            "email": "zx10@veloz.com"
-        }
-    ]
+  "users": [
+    {
+      "id": "1",
+      "name": "Henrique",
+      "email": "henrique@pereira.com"
+    },
+    {
+      "id": "2",
+      "name": "Zezinho",
+      "email": "zezinho@pereira.com"
+    },
+    {
+      "id": "3",
+      "name": "Motoqueiro",
+      "email": "zx10@veloz.com"
+    },
+    {
+      "id": "da76",
+      "name": "Henrique Pereira",
+      "email": "henrique802011@gmail.com"
+    },
+    {
+      "id": "b376",
+      "name": "devezinho",
+      "email": "devezinho@js.com"
+    },
+    {
+      "id": "10fd",
+      "name": "javinha",
+      "email": "javinha@java.com"
+    }
+  ]
 }
